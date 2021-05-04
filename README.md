@@ -58,7 +58,7 @@ All instructions and aliases are case-insensitive
 
 There's not much in terms of syntax.
 
-* Labels: `::<label-name>``
+* Labels: `::<label-name>`
 * Address: `%<address-value>`
 * Register: `$<register-name>`
 * Numeral: *Any number (bases are bodx)* `0b00101110`, `0xffab` 
