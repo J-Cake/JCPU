@@ -1,0 +1,12 @@
+{
+    "name": "jcpu_asm",
+    "version": "1.0.0",
+    "main": "build/cli.js",
+    "type": "module",
+    "devDependencies": {
+        "@types/node": "latest",
+        "source-map-support": "latest",
+        "module-alias": "^2.2.2",
+        "@types/module-alias": "^2.0.0"
+    }
+}

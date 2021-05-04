@@ -1,0 +1,8 @@
+::main
+    ldi $a, 03
+    ldi $b, 06
+    add %03
+    sto $acc, %01
+    lod $io, %01
+    ldi $adr, 01
+    out $io # expecting 9
