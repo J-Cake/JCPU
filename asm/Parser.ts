@@ -51,8 +51,6 @@ type Record2 = {
 };
 
 export default function Parse(tokens: Token[]): Statement[] {
-    // const labels: { [label: string]: number } = {}; // TODO: Add labels as alternative to addresses
-
     const lines: Token[][] = [[]];
     for (const i of tokens)
         if (i.type === TokenType.NewLine && lines[lines.length - 1].length > 0)
@@ -60,7 +58,7 @@ export default function Parse(tokens: Token[]): Statement[] {
         else
             lines[lines.length - 1].push(i);
 
-    return lines.map(function (i) {
+    return lines.map(function (i,) {
         const parsers: Record2 = {
             [StatementType.Label]: tokens => ({
                 ...parseLabel(tokens),

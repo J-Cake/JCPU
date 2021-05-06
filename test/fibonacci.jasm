@@ -1,0 +1,19 @@
+::print
+    ldi $adr 00
+    out
+    jmp ::fib # this isn't actually needed
+
+::fib
+    sum
+    mov $b $a
+    mov $acc $b
+
+    mov $io $acc
+    jmp ::print
+
+::main
+    ldi $a 00
+    ldi $b 01
+
+    jmp ::fib
+

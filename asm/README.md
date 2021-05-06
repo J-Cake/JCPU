@@ -45,8 +45,8 @@ Instructions are the most fundamental way to perform work on a CPU. There are a 
 | StoreImmediate  | `sti` | `store_i` | Store a value at a specified address in ram    | Address,  Numeral  |
 | Add             | `add` | `sum`     | Adds values of A and B register                | Address            |
 | Subtract        | `sub` | `diff`    | Subtracts values of A and B register           | Address            |
-| In              | `in`  | `input`   | Writes contents of register to IO devices      | Register           |
-| Out             | `out` | `output`  | Reads contents of IO devices to register       | Register           |
+| In              | `in`  | `input`   | Writes contents of register to IO peripherals      | Register           |
+| Out             | `out` | `output`  | Reads contents of IO peripherals to register       | Register           |
 | Jump            | `jpm` | `jump`    | Jump to an address in ram                      | Address / Label    |
 | JumpZero        | `jz`  | `jump_z`  | Jump to an address in ram if zero flag is set  | Address / Label    |
 | JumpCarry       | `jc`  | `jump_c`  | Jump to an address in ram if carry flag is set | Address / Label    |
@@ -58,7 +58,7 @@ All instructions and aliases are case-insensitive
 
 There's not much in terms of syntax.
 
-* Labels: `::<label-name>``
+* Labels: `::<label-name>`
 * Address: `%<address-value>`
 * Register: `$<register-name>`
 * Numeral: *Any number (bases are bodx)* `0b00101110`, `0xffab` 

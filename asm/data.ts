@@ -1,9 +1,11 @@
 import {Tuple} from "./util";
 import {Token} from "./Lexer";
 import {StatementType} from "./Parser";
+import {Registers} from "../vm/emulator";
 
 export enum TokenType {
     PrecompilerDirective,
+    Variable,
     Label,
     Numeral,
     ByteLiteral,
@@ -18,15 +20,17 @@ export enum TokenType {
     NewLine
 }
 
-export const registerIdentifiers = [
-    ['ins', 'instruction'],
-    ['pc', 'program_counter'],
-    ['acc', 'accumulator'],
-    ['adr', 'addr', 'address'],
-    ['a'],
-    ['b'],
-    ['io', 'buffer']
-];
+export const registerIdentifiers: Record<Registers, string[]> = {
+    [Registers.Instruction]: ['ins', 'instruction'],
+    [Registers.ProgramCounter]: ['pc', 'program_counter'],
+    [Registers.Accumulator]: ['acc', 'accumulator'],
+    [Registers.Address]: ['adr', 'addr', 'address'],
+    [Registers.AddressBackup]: [],
+    [Registers.A]: ['a'],
+    [Registers.B]: ['b'],
+    [Registers.IO]: ['io', 'buffer'],
+    [Registers.Flags]: []
+};
 
 export enum InstructionType {
     Move,
@@ -36,6 +40,8 @@ export enum InstructionType {
     StoreImmediate,
     Add,
     Subtract,
+    Sum,
+    Difference,
     In,
     Out,
     Jump,
@@ -46,7 +52,7 @@ export enum InstructionType {
 
 export const instructionIdentifiers: Record<InstructionType, {
     aliases: string[],
-    operands: Tuple<TokenType.Register | TokenType.Numeral | TokenType.Address, 0|1|2>
+    operands: Tuple<TokenType.Register | TokenType.Numeral | TokenType.Address | TokenType.Label, 0 | 1 | 2>
 }> = {
     [InstructionType.Move]: {
         aliases: ['mov', 'move'],
@@ -69,12 +75,20 @@ export const instructionIdentifiers: Record<InstructionType, {
         operands: [TokenType.Address, TokenType.Numeral]
     },
     [InstructionType.Add]: {
-        aliases: ['add', 'sum'],
+        aliases: ['add'],
         operands: [TokenType.Address]
     },
     [InstructionType.Subtract]: {
-        aliases: ['sub', 'diff'],
+        aliases: ['sub'],
         operands: [TokenType.Address]
+    },
+    [InstructionType.Sum]: {
+        aliases: ['sum'],
+        operands: []
+    },
+    [InstructionType.Difference]: {
+        aliases: ['dif', 'difference'],
+        operands: []
     },
     [InstructionType.In]: {
         aliases: ['in', 'input'],
@@ -82,19 +96,19 @@ export const instructionIdentifiers: Record<InstructionType, {
     },
     [InstructionType.Out]: {
         aliases: ['out', 'output'],
-        operands: [TokenType.Register]
+        operands: []
     },
     [InstructionType.Jump]: {
         aliases: ['jmp', 'jump'],
-        operands: [TokenType.Address]
+        operands: [TokenType.Label]
     },
     [InstructionType.JumpCarry]: {
         aliases: ['jc', 'jump_c'],
-        operands: [TokenType.Address]
+        operands: [TokenType.Label]
     },
     [InstructionType.JumpZero]: {
         aliases: ['jz', 'jump_z'],
-        operands: [TokenType.Address]
+        operands: [TokenType.Label]
     },
     [InstructionType.Halt]: {
         aliases: ['hlt', 'halt'],
@@ -107,6 +121,7 @@ export const isInstruction: (ins: string) => boolean = ins => Object.values(inst
 export type GenericStatement<Type extends StatementType> = {
     statementType: Type
 }
+
 export interface Instruction<Type extends InstructionType = InstructionType> extends GenericStatement<StatementType.Instruction> {
     type: Type,
     operands: Token[],

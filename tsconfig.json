@@ -2,7 +2,7 @@
     "compilerOptions": {
         "module": "esnext",
         "target": "esnext",
-        "rootDir": "src",
+        "rootDirs": ["asm", "vm"],
         "outDir": "./build",
         "lib": [
             "dom",
@@ -10,15 +10,6 @@
         ],
         "sourceMap": true,
         "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
-        "composite": true
-    },
-    "exclude": [
-        "node_modules"
-    ],
-    "references": [
-        {
-            "path": "../jcpu_vm"
-        }
-    ]
+        "esModuleInterop": true
+    }
 }

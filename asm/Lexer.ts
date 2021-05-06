@@ -1,6 +1,5 @@
 import {isInstruction, registerIdentifiers, TokenType} from "./data";
-import {Err} from "./util";
-
+import {Err} from "../vm/util";
 
 export type Token<T extends TokenType = TokenType> = {
     source: string,
@@ -10,13 +9,14 @@ export type Token<T extends TokenType = TokenType> = {
 
 export const matchers: Record<TokenType, (tok: string) => boolean> = {
     [TokenType.PrecompilerDirective]: tok => /^!.+$/.test(tok),
+    [TokenType.Variable]: tok => /^\w+$/.test(tok),
     [TokenType.Label]: tok => /^::\w+$/.test(tok),
     [TokenType.Numeral]: tok => /^-?(0[dDxXbBoO])?\d+$/.test(tok),
     [TokenType.ByteLiteral]: tok => /^((?<![\\])['"])((?:.(?!(?<![\\])\1))*.?)\1$/.test(tok),
     [TokenType.Instruction]: tok => /^\w{2,}/.test(tok) && isInstruction(tok),
     [TokenType.Comment]: tok => /^#.*$/.test(tok),
 
-    [TokenType.Register]: tok => tok.startsWith('$') && registerIdentifiers.some(i => i.includes(tok.slice(1).toLowerCase())),
+    [TokenType.Register]: tok => tok.startsWith('$') && Object.values(registerIdentifiers).some(i => i.includes(tok.slice(1).toLowerCase())),
     [TokenType.Address]: tok => /^%[\da-fA-F]+$/.test(tok),
 
     [TokenType.Comma]: tok => tok === ',',
