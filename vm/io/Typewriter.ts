@@ -1,7 +1,7 @@
 import Emulator, {Peripheral} from "../emulator";
 
 // *screen* device
-export default function display(): (getPort: () => number) => Peripheral {
+export default function typewriter(): (getPort: () => number) => Peripheral {
     return function(getPort: () => number): Peripheral {
         return {
             enable: () => 0,
